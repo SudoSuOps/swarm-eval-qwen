@@ -1,0 +1,84 @@
+{
+  "_note": "Together.ai API costs for SwarmJudge-9B-CRE-B0 data pipeline. All costs in USD.",
+  "total_spend": 1503.66,
+  "credit_applied": 579.65,
+  "credit_remaining": 1.92,
+  "as_of": "2026-03-03",
+  "total_requests": "1.2M",
+
+  "by_model": {
+    "meta-llama/llama-4-maverick-17b-128e-instruct-fp8": {
+      "role": "Judge model — scores pairs as PASS/FAIL",
+      "input_tokens_M": 204.766,
+      "output_tokens_M": 142.174,
+      "input_cost": 55.29,
+      "output_cost": 120.85,
+      "total": 176.14,
+      "unit_prices": {"input": 0.27, "output": 0.85}
+    },
+    "qwen/qwen3-next-80b-a3b-instruct": {
+      "role": "Generator — produces CRE content pairs",
+      "input_tokens_M": 105.132,
+      "output_tokens_M": 194.243,
+      "input_cost": 15.77,
+      "output_cost": 291.37,
+      "total": 307.14,
+      "unit_prices": {"input": 0.15, "output": 1.50}
+    },
+    "qwen/qwen3-235b-a22b-instruct-2507-tput": {
+      "role": "Quality rewrite pass — second tier enrichment",
+      "input_tokens_M": 229.862,
+      "output_tokens_M": 67.148,
+      "input_cost": 45.97,
+      "output_cost": 40.28,
+      "total": 86.25,
+      "unit_prices": {"input": 0.20, "output": 0.60}
+    },
+    "qwen/qwen3.5-397b-a17b": {
+      "role": "Test/exploration",
+      "input_tokens_M": 0.081,
+      "output_tokens_M": 0.074,
+      "total": 0.32,
+      "unit_prices": {"input": 0.60, "output": 3.60}
+    },
+    "minimaxai/minimax-m2.5": {
+      "role": "Test/exploration",
+      "total": 0.61,
+      "unit_prices": {"input": 0.30, "output": 1.20}
+    },
+    "moonshotai/kimi-k2.5": {
+      "role": "Test/exploration",
+      "total": 2.95,
+      "unit_prices": {"input": 0.50, "output": 2.80}
+    }
+  },
+
+  "data_yield": {
+    "phase1_phase2": {
+      "description": "r1-r11 cook runs → Phase 1 (23K PASS) + Phase 2 (23K PASS+FAIL)",
+      "total_pairs_produced": 46000,
+      "note": "Assembled and deduplicated"
+    },
+    "phase3": {
+      "description": "r12-r18 cook runs → Phase 3 specialty data",
+      "raw_pairs": 55930,
+      "duplicates": 53007,
+      "unique_clean": 2923,
+      "duplicate_rate_pct": 94.8,
+      "cause": "Cook restarts appended to same JSONL files instead of rotating output. Each restart re-generated pairs that already existed.",
+      "waste_assessment": "53K duplicate API calls at ~$0.003/pair = ~$159 wasted on dupes alone"
+    }
+  },
+
+  "cost_per_pair": {
+    "total_unique_pairs": 48923,
+    "total_spend": 1503.66,
+    "cost_per_pair_usd": 0.031,
+    "note": "Includes all waste, exploration, and duplicates"
+  },
+
+  "open_issues": {
+    "duplicate_reconciliation": "53,007 dupes from r12-r18 needs root cause fix in cook script. SafeStore should check existing fingerprints before API call, not after.",
+    "cook_restarts": "Restarting cooks without rotating output dir appends to existing files. Must either: (a) rotate output dir per restart, or (b) dedup before writing."
+  }
+}
