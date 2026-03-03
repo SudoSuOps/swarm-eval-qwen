@@ -1,0 +1,70 @@
+# SwarmJudge-4B-CRE-B0 Phase 1 — Identity Lock
+# Trained on swarmrails RTX 3090 Ti 24GB (GPU 0)
+# Completed: 2026-03-03T16:07 UTC
+
+model_id: swarmjudge-4b-cre-b0
+phase: 1
+status: DONE
+
+base_model:
+  name: Qwen/Qwen3-4B
+  family: qwen3
+  architecture: standard transformer + GQA
+  params: 4B
+  think_mode_default: true  # Qwen3 has think ON by default — must disable for judge
+
+training:
+  method: bf16 LoRA
+  lora_r: 64
+  lora_alpha: 32
+  learning_rate: 5.0e-5
+  scheduler: cosine
+  epochs: 1
+  batch_size: 4
+  gradient_accumulation: 8
+  effective_batch_size: 32
+  max_seq_length: 4096
+  packing: true
+
+  steps: 337
+  runtime_seconds: 16550
+  runtime_hours: 4.60
+  train_loss_first: 6.26
+  train_loss_final: 0.884
+  train_loss_avg: 1.742
+  train_loss_min: 0.884
+  eval_losses: [3.763, 3.811, 3.803]
+  eval_loss_trend: flat-high  # significant train/eval gap
+
+dataset:
+  train_pairs: 23000
+  verdict_filter: PASS_ONLY
+  train_sha256: 2d294835a46628ceaea24008c4a452cc45723a46c335f882c6aca6d8ff52151a
+  judge_model: meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+
+artifacts:
+  adapter: swarmrails:/data2/swarmjudge-4b-cre-b0/final/
+  adapter_size: 505MB
+  adapter_sha256: 2ba00476bf77bccd535a08321b2ad8c30f925d041427ac9846f78bdd9df0b561
+  merged: swarmrails:/data2/swarmjudge-4b-cre-b0/merged/
+  merged_size: 7.6GB
+  merged_shards:
+    - model-00001-of-00002.safetensors
+    - model-00002-of-00002.safetensors
+  merged_sha256:
+    shard_1: 323cb8ed70fabdcb3d3dfdd63a979d77c78f8add15126e89c9345a24883c284a
+    shard_2: 8fbcbc0372865bea4d8af94511e460dc36f82232db8ffa63e65264264483237b
+
+environment:
+  gpu: NVIDIA GeForce RTX 3090 Ti (24GB)
+  hostname: swarmrails
+  cuda_toolkit: "12.8"
+  torch_version: "2.9.1+cu128"
+  unsloth_version: "2026.2.1"
+  python_version: "3.12"
+
+notes: |
+  Eval loss flat at ~3.8 vs train 0.884. Larger gap than 2B (which had eval ~1.0).
+  4B uses 4096 seq (vs 2B at 2048) — more context capacity.
+  No gate bench run yet. Previous eval attempts all used greedy decoding (wrong).
+  Needs proper eval with do_sample=True before booking Phase 2.

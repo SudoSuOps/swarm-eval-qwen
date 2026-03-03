@@ -1,0 +1,69 @@
+{
+  "model_id": "swarmjudge-4b-cre-b0",
+  "phase": "phase1",
+  "run_id": "20260303-1125-phase1-swarmrails-gpu0",
+  "base_model": {
+    "name": "Qwen/Qwen3-4B",
+    "family": "qwen3",
+    "architecture": "standard transformer + GQA",
+    "params": "4B"
+  },
+  "config": {
+    "path": "configs/models/swarmjudge-4b-cre-b0/phase1.yaml"
+  },
+  "dataset": {
+    "train_sha256": "2d294835a46628ceaea24008c4a452cc45723a46c335f882c6aca6d8ff52151a",
+    "train_pairs": 23000,
+    "verdict_filter": "PASS_ONLY",
+    "note": "Same Phase 1 PASS-only data as 9B and 2B. Identity lock."
+  },
+  "code": {
+    "repo": "SudoSuOps/swarm-eval-qwen",
+    "branch": "main"
+  },
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 3090 Ti (24GB)",
+    "hostname": "swarmrails",
+    "gpu_slot": "GPU 0 (PCI bus 0x70)",
+    "cuda_toolkit": "12.8",
+    "torch_version": "2.9.1+cu128",
+    "unsloth_version": "2026.2.1",
+    "python_version": "3.12"
+  },
+  "training": {
+    "method": "bf16 LoRA r=64 alpha=32",
+    "steps": 337,
+    "train_loss_first": 6.26,
+    "train_loss_final": 0.884,
+    "train_loss_min": 0.884,
+    "train_loss_avg": 1.742,
+    "eval_losses": [3.763, 3.811, 3.803],
+    "eval_loss_trend": "flat-high — significant train/eval gap",
+    "runtime_seconds": 16550,
+    "runtime_hours": 4.60,
+    "samples_per_second": 1.39
+  },
+  "artifacts": {
+    "adapter_path": "swarmrails:/data2/swarmjudge-4b-cre-b0/final/",
+    "adapter_sha256": "2ba00476bf77bccd535a08321b2ad8c30f925d041427ac9846f78bdd9df0b561",
+    "adapter_size": "505MB",
+    "merged_path": "swarmrails:/data2/swarmjudge-4b-cre-b0/merged/",
+    "merged_shards": [
+      "model-00001-of-00002.safetensors",
+      "model-00002-of-00002.safetensors"
+    ],
+    "merged_sha256": {
+      "shard_1": "323cb8ed70fabdcb3d3dfdd63a979d77c78f8add15126e89c9345a24883c284a",
+      "shard_2": "8fbcbc0372865bea4d8af94511e460dc36f82232db8ffa63e65264264483237b"
+    },
+    "merged_size": "7.6GB"
+  },
+  "eval": {
+    "gate_bench": {
+      "status": "PENDING — previous eval attempts used greedy decoding (wrong)",
+      "note": "Must run with do_sample=True, enable_thinking=False before Phase 2"
+    }
+  },
+  "started_utc": "2026-03-03T11:25:00",
+  "completed_utc": "2026-03-03T16:07:56"
+}
