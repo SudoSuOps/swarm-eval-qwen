@@ -60,25 +60,30 @@
       "note": "Assembled and deduplicated"
     },
     "phase3": {
-      "description": "r12-r18 cook runs → Phase 3 specialty data",
-      "raw_pairs": 55930,
-      "duplicates": 53007,
-      "unique_clean": 2923,
-      "duplicate_rate_pct": 94.8,
+      "description": "r12-r18 cook runs → Phase 3 specialty data (FINAL — cooks killed 2026-03-03T20:45Z)",
+      "raw_pairs": 65748,
+      "duplicates": 62761,
+      "unique_clean": 2987,
+      "train_split": 2838,
+      "eval_split": 149,
+      "pass_count": 2956,
+      "fail_count": 31,
+      "duplicate_rate_pct": 95.5,
       "cause": "Cook restarts appended to same JSONL files instead of rotating output. Each restart re-generated pairs that already existed.",
-      "waste_assessment": "53K duplicate API calls at ~$0.003/pair = ~$159 wasted on dupes alone"
+      "waste_assessment": "62.7K duplicate API calls at ~$0.003/pair = ~$188 wasted on dupes alone"
     }
   },
 
   "cost_per_pair": {
-    "total_unique_pairs": 48923,
+    "total_unique_pairs": 48987,
+    "breakdown": "Phase 1+2: 46,000 + Phase 3: 2,987 = 48,987",
     "total_spend": 1503.66,
     "cost_per_pair_usd": 0.031,
     "note": "Includes all waste, exploration, and duplicates"
   },
 
   "open_issues": {
-    "duplicate_reconciliation": "53,007 dupes from r12-r18 needs root cause fix in cook script. SafeStore should check existing fingerprints before API call, not after.",
-    "cook_restarts": "Restarting cooks without rotating output dir appends to existing files. Must either: (a) rotate output dir per restart, or (b) dedup before writing."
+    "cook_restarts": "Restarting cooks without rotating output dir appends to existing files. Must either: (a) rotate output dir per restart, or (b) dedup before writing.",
+    "phase3_fail_deficit": "Only 31 FAIL examples in Phase 3 (1%). Phase 2 carries FAIL enforcement (6,900 FAIL = 30%)."
   }
 }

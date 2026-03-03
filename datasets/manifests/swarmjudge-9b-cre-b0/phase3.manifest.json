@@ -2,37 +2,42 @@
   "model_id": "swarmjudge-9b-cre-b0",
   "phase": "phase3",
   "schema_version": "1.0",
-  "created_utc": "2026-03-03T20:30:00Z",
+  "created_utc": "2026-03-03T21:11:21Z",
+  "status": "ASSEMBLED — not yet trained. Complete Phase 2 eval first.",
   "dataset_location": {
-    "train": "r2://sb-judge/phase3/phase3_train.jsonl",
-    "eval": "r2://sb-judge/phase3/phase3_eval.jsonl",
-    "report": "r2://sb-judge/phase3/phase3_report.json",
-    "storage": "Cloudflare R2 bucket sb-judge"
+    "train": "swarmrails:/data2/swarmjudge_27b_data/phase3/phase3_train.jsonl",
+    "eval": "swarmrails:/data2/swarmjudge_27b_data/phase3/phase3_eval.jsonl",
+    "report": "swarmrails:/data2/swarmjudge_27b_data/phase3/phase3_report.json",
+    "storage": "swarmrails NAS (not yet pushed to R2)"
   },
   "files": [
     {
       "name": "phase3_train.jsonl",
-      "r2_key": "phase3/phase3_train.jsonl",
-      "pairs": 2777
+      "path": "/data2/swarmjudge_27b_data/phase3/phase3_train.jsonl",
+      "sha256": "bc6d117bbbc15911a07242f161065c97004b212221bca3f94b18601ba6b7ba81",
+      "pairs": 2838
     },
     {
       "name": "phase3_eval.jsonl",
-      "r2_key": "phase3/phase3_eval.jsonl",
-      "pairs": 146
+      "path": "/data2/swarmjudge_27b_data/phase3/phase3_eval.jsonl",
+      "sha256": "a9c950d1461256bb3c202b60d5a6d9f7d7ae6810e2118439d4c01f994658cb71",
+      "pairs": 149
     },
     {
       "name": "phase3_report.json",
-      "r2_key": "phase3/phase3_report.json"
+      "path": "/data2/swarmjudge_27b_data/phase3/phase3_report.json"
     }
   ],
-  "total_pairs": 2923,
-  "train_pairs": 2777,
-  "eval_pairs": 146,
-  "pass_count": "TBD",
-  "fail_count": "TBD",
-  "dedup_strategy": "fingerprint field — 53,510 duplicates removed from 55,930 raw (cook restarts appended to same files)",
-  "raw_total_before_dedup": 55930,
-  "unique_after_dedup": 2923,
+  "total_pairs": 2987,
+  "train_pairs": 2838,
+  "eval_pairs": 149,
+  "pass_count": 2956,
+  "fail_count": 31,
+  "pass_fail_ratio": "99/1",
+  "dedup_strategy": "fingerprint field — 62,761 duplicates removed from 65,748 raw (cook restarts appended to same files)",
+  "raw_total_before_dedup": 65748,
+  "unique_after_dedup": 2987,
+  "duplicate_rate_pct": 95.5,
   "source_runs": [
     "cre_judge_cook_llama4_r12",
     "cre_judge_cook_llama4_r13",
@@ -42,18 +47,32 @@
     "cre_judge_cook_llama4_r17",
     "cre_judge_cook_llama4_r18"
   ],
+  "unique_per_run": {
+    "r12": 682,
+    "r13": 681,
+    "r14": 688,
+    "r15": 689,
+    "r16": 82,
+    "r17": 83,
+    "r18": 82
+  },
   "specialties": [
-    "psa",
-    "loi",
-    "stnl_nnn",
-    "snda_estoppel",
-    "lease_abstract",
-    "investment_grade",
-    "rwa_tokenization",
-    "multifamily_uw",
-    "retail_leasing",
-    "property_management"
+    "psa", "loi", "stnl_nnn", "snda_estoppel", "lease_abstract",
+    "investment_grade", "rwa_tokenization", "multifamily_uw",
+    "retail_leasing", "property_management"
   ],
+  "topic_distribution": {
+    "multifamily_uw": 317,
+    "retail_leasing": 316,
+    "property_management": 309,
+    "psa": 276,
+    "loi": 275,
+    "stnl_nnn": 273,
+    "lease_abstract": 272,
+    "investment_grade": 271,
+    "snda_estoppel": 266,
+    "rwa_tokenization": 263
+  },
   "judge_model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
   "assembler": "assemble_phase3.py"
 }

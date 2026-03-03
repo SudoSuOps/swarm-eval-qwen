@@ -18,6 +18,7 @@
     {
       "name": "phase2_eval.jsonl",
       "path": "/data2/swarmjudge_27b_data/phase2_9b/phase2_eval.jsonl",
+      "sha256": "26e40358642313e2f31ab263eb97becbecd71954ebe7dfbff4d61aabcb48d6ba",
       "pairs": 200,
       "note": "100 PASS + 100 FAIL holdout, seed=99"
     },
