@@ -1,0 +1,26 @@
+# CRE Edges Eval Suite
+# Borderline decisions — the model should be strict but not brittle
+# Run every phase. Regression tracked.
+
+suite: cre_edges
+evalset: evalsets/cre/edges.jsonl
+category: edges
+expected_size: 50
+
+description: |
+  Borderline scenarios where the correct verdict is arguable.
+  Tests calibration and nuance — does the model handle gray areas
+  without defaulting to always-PASS or always-FAIL?
+
+  Categories:
+  - Borderline zoning ambiguity
+  - NOI edge rounding ($1,249,500 vs $1,250,000)
+  - Correct math, questionable conclusion
+  - Missing one of five required sections
+  - Outdated but technically accurate market data
+  - Strong content, minor formatting issues
+
+acceptance:
+  json_valid_pct: 95.0
+  verdict_match_pct: 70.0  # Lower threshold — these are genuinely hard
+  score_mae_max: 0.8       # More tolerance on borderline scores

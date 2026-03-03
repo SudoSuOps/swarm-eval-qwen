@@ -1,0 +1,86 @@
+# Phase 2 — FAIL Recognition
+# SwarmJudge-9B-CRE-B0-Phase2
+# Completed: 2026-03-03T19:12 UTC
+
+model_id: swarmjudge-9b-cre-b0
+phase: 2
+purpose: "FAIL recognition + issue/fix trajectory on Phase 1 foundation"
+
+base_model:
+  name: "Phase 1 merged"
+  path: "/data2/swarmjudge-9b-b0/merged"
+  family: qwen3_5
+  architecture: gdn_sparse_moe
+
+training:
+  method: bf16_lora
+  lora_r: 64
+  lora_alpha: 32
+  qlora: false
+  epochs: 1
+  batch_size: 4
+  gradient_accumulation: 8
+  effective_batch: 32
+  max_seq_length: 4096
+  packing: true
+  learning_rate: 2.0e-5   # Lower than Phase 1 — building on existing weights
+  lr_scheduler: cosine
+  warmup_steps: 35
+  gradient_checkpointing: unsloth
+  dtype: bfloat16
+
+data:
+  train_path: "/data2/swarmjudge_27b_data/phase2_9b/phase2_train.jsonl"
+  eval_path: "/data2/swarmjudge_27b_data/phase2_9b/phase2_eval.jsonl"
+  train_sha256: "9e6e2a0d8351c3ac920c0b6ef6824cdc233a9ff86b4e607940055aa91846aa57"
+  train_pairs: 23000
+  eval_pairs: 200  # 100 PASS + 100 FAIL holdout
+  verdict_split:
+    PASS: 16100
+    FAIL: 6900
+  judge_model: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
+
+gpu:
+  device: "cuda:1"  # Blackwell RTX PRO 6000
+  vram: 96GB
+
+results:
+  steps: 719
+  trainable_params: 116391936
+  total_params: 9526205680
+  trainable_pct: 1.22
+  train_loss_avg: 0.1333
+  train_loss_final: 0.1263
+  runtime_hours: 7.96
+  runtime_seconds: 28670
+  step_time_avg: 40s
+  samples_per_second: 0.802
+
+  loss_curve:
+    - {step: 10,  loss: 0.1385, lr: 5.0e-6,  epoch: 0.014}
+    - {step: 40,  loss: 0.1459, lr: 2.0e-5,  epoch: 0.070}  # peak LR
+    - {step: 100, loss: 0.1372, lr: 1.96e-5, epoch: 0.139}
+    - {step: 200, loss: 0.1339, lr: 1.70e-5, epoch: 0.292}
+    - {step: 300, loss: 0.1291, lr: 1.40e-5, epoch: 0.390}
+    - {step: 400, loss: 0.1305, lr: 1.18e-5, epoch: 0.473}
+    - {step: 500, loss: 0.1290, lr: 9.01e-6, epoch: 0.557}
+    - {step: 600, loss: 0.1278, lr: 6.34e-6, epoch: 0.640}
+    - {step: 700, loss: 0.1263, lr: 3.78e-7, epoch: 0.918}
+    - {step: 719, loss: 0.1263, lr: 1.06e-8, epoch: 1.000}
+
+  assessment: |
+    Smooth cosine descent. No spikes, no divergence, no overfitting.
+    Started at 0.1385 (low — Phase 1 pretrained well).
+    Brief warmup spike to 0.1459 at peak LR.
+    9% relative improvement start to end.
+    Grad norm stable: 0.02 -> 0.05 (gentle upward, normal for cosine).
+
+artifacts:
+  adapter: "/data2/swarmjudge-9b-cre-p2/final/"
+  adapter_size: "464MB"
+  merged: "/data2/swarmjudge-9b-cre-p2/merged/"
+  merged_size: "18GB (4 shards)"
+  provenance: "/data2/swarmjudge-9b-cre-p2/provenance.json"
+  train_log: "/data2/swarmjudge-9b-cre-p2/train.log"
+
+completed_utc: "2026-03-03T19:12:31.098905"

@@ -1,0 +1,59 @@
+{
+  "model_id": "swarmjudge-9b-cre-b0",
+  "phase": "phase3",
+  "schema_version": "1.0",
+  "created_utc": "2026-03-03T20:30:00Z",
+  "dataset_location": {
+    "train": "r2://sb-judge/phase3/phase3_train.jsonl",
+    "eval": "r2://sb-judge/phase3/phase3_eval.jsonl",
+    "report": "r2://sb-judge/phase3/phase3_report.json",
+    "storage": "Cloudflare R2 bucket sb-judge"
+  },
+  "files": [
+    {
+      "name": "phase3_train.jsonl",
+      "r2_key": "phase3/phase3_train.jsonl",
+      "pairs": 2777
+    },
+    {
+      "name": "phase3_eval.jsonl",
+      "r2_key": "phase3/phase3_eval.jsonl",
+      "pairs": 146
+    },
+    {
+      "name": "phase3_report.json",
+      "r2_key": "phase3/phase3_report.json"
+    }
+  ],
+  "total_pairs": 2923,
+  "train_pairs": 2777,
+  "eval_pairs": 146,
+  "pass_count": "TBD",
+  "fail_count": "TBD",
+  "dedup_strategy": "fingerprint field — 53,510 duplicates removed from 55,930 raw (cook restarts appended to same files)",
+  "raw_total_before_dedup": 55930,
+  "unique_after_dedup": 2923,
+  "source_runs": [
+    "cre_judge_cook_llama4_r12",
+    "cre_judge_cook_llama4_r13",
+    "cre_judge_cook_llama4_r14",
+    "cre_judge_cook_llama4_r15",
+    "cre_judge_cook_llama4_r16",
+    "cre_judge_cook_llama4_r17",
+    "cre_judge_cook_llama4_r18"
+  ],
+  "specialties": [
+    "psa",
+    "loi",
+    "stnl_nnn",
+    "snda_estoppel",
+    "lease_abstract",
+    "investment_grade",
+    "rwa_tokenization",
+    "multifamily_uw",
+    "retail_leasing",
+    "property_management"
+  ],
+  "judge_model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+  "assembler": "assemble_phase3.py"
+}

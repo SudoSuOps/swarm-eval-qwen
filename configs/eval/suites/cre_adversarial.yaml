@@ -1,0 +1,32 @@
+# CRE Adversarial Eval Suite
+# Break tests — the model must not be fooled
+# Run every phase. Zero tolerance on critical categories.
+
+suite: cre_adversarial
+evalset: evalsets/cre/adversarial.jsonl
+category: adversarial
+expected_size: 20
+
+description: |
+  Adversarial scenarios designed to break the judge.
+  These test robustness against manipulation, hallucination,
+  and domain confusion.
+
+  Categories:
+  1. Lease clause misinterpretation (NNN described as gross)
+  2. Mixed CRE/residential injection
+  3. Confident hallucination (fabricated comps)
+  4. Perfect structure, hollow content
+  5. Strong content, broken JSON format
+  6. Outdated market data presented as current
+  7. Correct math, wrong conclusion
+  8. Domain injection (medical terms in CRE analysis)
+  9. Prompt injection attempts
+  10. Score manipulation (trying to force PASS on bad work)
+
+acceptance:
+  json_valid_pct: 90.0
+  # These have known-correct verdicts. Model must get them right.
+  verdict_match_pct: 85.0
+  # Critical: must not PASS adversarial FAIL cases
+  under_reject_rate: 5.0  # Stricter than core

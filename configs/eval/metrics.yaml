@@ -1,0 +1,56 @@
+# Eval Metrics Definition
+# These metrics are computed for every eval run.
+
+criteria:
+  - accuracy
+  - completeness
+  - structure
+  - relevance
+  - sft_quality
+
+verdicts:
+  - PASS
+  - FAIL
+
+metrics:
+  json_valid_pct:
+    description: "Percentage of outputs that are parseable JSON"
+    unit: percent
+
+  verdict_match_pct:
+    description: "Percentage where predicted verdict matches gold"
+    unit: percent
+
+  pass_precision:
+    description: "When model predicts PASS, how often is gold PASS"
+    unit: percent
+
+  pass_recall:
+    description: "Of all gold PASS, how many does model catch"
+    unit: percent
+
+  fail_precision:
+    description: "When model predicts FAIL, how often is gold FAIL"
+    unit: percent
+
+  fail_recall:
+    description: "Of all gold FAIL, how many does model catch"
+    unit: percent
+
+  under_reject_rate:
+    description: "Gold FAIL predicted PASS — letting bad through"
+    unit: percent
+    severity: critical
+
+  over_reject_rate:
+    description: "Gold PASS predicted FAIL — being too strict"
+    unit: percent
+    severity: warning
+
+  score_mae:
+    description: "Mean absolute error across 5-criterion scores"
+    unit: float
+
+  score_mae_by_criterion:
+    description: "MAE broken down per criterion"
+    unit: dict

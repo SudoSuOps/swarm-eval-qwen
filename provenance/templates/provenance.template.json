@@ -1,0 +1,54 @@
+{
+  "_comment": "Every training run must produce a provenance.json. If any field is missing, it's not a real run.",
+  "model_id": "",
+  "phase": "",
+  "run_id": "",
+  "base_model": {
+    "path": "",
+    "sha256_shard_0": "",
+    "note": ""
+  },
+  "config": {
+    "path": "",
+    "sha256": ""
+  },
+  "dataset": {
+    "manifest_path": "",
+    "manifest_sha256": "",
+    "train_sha256": "",
+    "train_pairs": 0,
+    "eval_pairs": 0,
+    "verdict_split": {
+      "PASS": 0,
+      "FAIL": 0
+    }
+  },
+  "code": {
+    "repo": "SudoSuOps/swarm-eval-qwen",
+    "commit": "",
+    "branch": "main"
+  },
+  "environment": {
+    "cuda_version": "",
+    "torch_version": "",
+    "transformers_version": "",
+    "unsloth_version": "",
+    "python_version": "",
+    "gpu": "",
+    "hostname": ""
+  },
+  "artifacts": {
+    "adapter_path": "",
+    "adapter_sha256": "",
+    "merged_path": "",
+    "merged_shards": [],
+    "merged_total_size": ""
+  },
+  "eval": {
+    "sampling_config": "",
+    "eval_report_path": "",
+    "eval_report_sha256": ""
+  },
+  "started_utc": "",
+  "completed_utc": ""
+}

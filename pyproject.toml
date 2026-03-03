@@ -1,0 +1,25 @@
+[project]
+name = "swarm-eval-qwen"
+version = "0.1.0"
+description = "Reproducible eval and provenance for SwarmJudge Qwen models"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+
+dependencies = [
+    "pyyaml>=6.0",
+    "jsonschema>=4.20",
+]
+
+[project.optional-dependencies]
+gpu = [
+    "torch>=2.4",
+    "transformers>=4.51",
+    "unsloth>=2026.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/swarmeval"]

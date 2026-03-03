@@ -1,0 +1,55 @@
+# Phase 1 — Identity Lock
+# SwarmJudge-9B-CRE-B0-Phase1
+# Completed: 2026-03-03T08:05 UTC
+
+model_id: swarmjudge-9b-cre-b0
+phase: 1
+purpose: "Identity lock — PASS-only pairs, learn the judge persona"
+
+base_model:
+  name: Qwen/Qwen3.5-9B
+  family: qwen3_5
+  architecture: gdn_sparse_moe
+
+training:
+  method: bf16_lora
+  lora_r: 64
+  lora_alpha: 32
+  qlora: false  # Never QLoRA on Qwen3.5
+  epochs: 1
+  batch_size: 4
+  gradient_accumulation: 8
+  effective_batch: 32
+  max_seq_length: 4096
+  packing: true
+  learning_rate: 5.0e-5
+  lr_scheduler: cosine
+  warmup_steps: 35
+  gradient_checkpointing: unsloth
+  dtype: bfloat16
+
+data:
+  train_path: "/data2/swarmjudge_27b_data/phase1_b0/phase1_train.jsonl"
+  eval_path: "/data2/swarmjudge_27b_data/phase1/phase1_eval.jsonl"
+  train_pairs: 23000
+  eval_pairs: 1224
+  verdict_split:
+    PASS: 23000
+    FAIL: 0
+  judge_model: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
+
+gpu:
+  device: "cuda:1"  # Blackwell RTX PRO 6000
+  vram: 96GB
+
+results:
+  steps: 719
+  train_loss: 0.2217
+  runtime_hours: 4.83
+  step_time_avg: 25s
+
+artifacts:
+  adapter: "/data2/swarmjudge-9b-b0/final/"
+  merged: "/data2/swarmjudge-9b-b0/merged/"
+  merged_size: "18GB (4 shards)"
+  train_log: "/data2/swarmjudge-9b-b0/train.log"

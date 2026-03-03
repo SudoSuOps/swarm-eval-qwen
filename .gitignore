@@ -1,0 +1,36 @@
+# Raw data — stays in NAS/R2, never in repo
+*.jsonl
+!evalsets/**/*.jsonl
+!datasets/splits/**/*.list
+
+# Model artifacts
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.pth
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs (keep provenance logs via explicit commit)
+*.log
+!provenance/runs/**/*.log
+
+# Temp
+/tmp/
+*.tmp

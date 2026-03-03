@@ -1,0 +1,73 @@
+# Phase 3 — Specialty Reinforcement
+# SwarmJudge-9B-CRE-B0-Phase3
+# Status: DATA READY, TRAIN PENDING
+
+model_id: swarmjudge-9b-cre-b0
+phase: 3
+purpose: "CRE specialty reinforcement — 10 advanced topics from Phase 2 failure analysis"
+
+base_model:
+  name: "Phase 2 merged"
+  path: "/data2/swarmjudge-9b-cre-p2/merged"
+  family: qwen3_5
+  architecture: gdn_sparse_moe
+
+training:
+  method: bf16_lora
+  lora_r: 64
+  lora_alpha: 32
+  qlora: false
+  epochs: TBD       # 2,777 pairs / 32 eff batch = 87 steps (may need >1 epoch)
+  batch_size: 4
+  gradient_accumulation: 8
+  effective_batch: 32
+  max_seq_length: 4096
+  packing: true
+  learning_rate: TBD  # Lower than Phase 2 — fine-tuning specialization
+  lr_scheduler: cosine
+  gradient_checkpointing: unsloth
+  dtype: bfloat16
+
+data:
+  train_path: "sb-judge/phase3/phase3_train.jsonl"  # R2 bucket
+  eval_path: "sb-judge/phase3/phase3_eval.jsonl"
+  train_pairs: 2777
+  eval_pairs: 146
+  verdict_split: TBD  # from phase3_report.json
+  judge_model: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
+  source_runs:
+    - cre_judge_cook_llama4_r12
+    - cre_judge_cook_llama4_r13
+    - cre_judge_cook_llama4_r14
+    - cre_judge_cook_llama4_r15
+    - cre_judge_cook_llama4_r16
+    - cre_judge_cook_llama4_r17
+    - cre_judge_cook_llama4_r18
+  specialties:
+    - psa
+    - loi
+    - stnl_nnn
+    - snda_estoppel
+    - lease_abstract
+    - investment_grade
+    - rwa_tokenization
+    - multifamily_uw
+    - retail_leasing
+    - property_management
+
+  concerns:
+    - "2,777 pairs is thin for 10 specialties (277 per topic average)"
+    - "87 steps at eff batch 32 may not be enough"
+    - "Options: (a) multi-epoch, (b) cook more data, (c) Phase 2 replay mix"
+    - "Decision required before training"
+
+gpu:
+  device: "cuda:1"  # Blackwell RTX PRO 6000
+  vram: 96GB
+
+artifacts:
+  adapter: "/data2/swarmjudge-9b-cre-p3/final/"
+  merged: "/data2/swarmjudge-9b-cre-p3/merged/"
+  provenance: "/data2/swarmjudge-9b-cre-p3/provenance.json"
+
+completed_utc: null  # Not started

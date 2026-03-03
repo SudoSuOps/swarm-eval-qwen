@@ -1,0 +1,23 @@
+# CRE Core Eval Suite
+# Deterministic baseline — standard CRE judge scenarios
+# Run every phase. Regression tracked.
+
+suite: cre_core
+evalset: evalsets/cre/core.jsonl
+category: core
+expected_size: 100  # 50 PASS + 50 FAIL
+
+description: |
+  Standard CRE judge scenarios covering the base competencies:
+  underwriting calculations, lease analysis, market comparisons,
+  investment memoranda, and risk assessment.
+
+  These are not edge cases. If the model fails core, it fails everything.
+
+acceptance:
+  json_valid_pct: 95.0
+  pass_precision: 90.0
+  fail_precision: 85.0
+  under_reject_rate: 10.0
+  over_reject_rate: 15.0
+  score_mae_max: 0.5

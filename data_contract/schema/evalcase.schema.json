@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SwarmJudge Eval Case",
+  "description": "Schema for eval fixtures. Every case in evalsets/ must validate.",
+  "type": "object",
+  "required": ["id", "prompt", "expected_verdict", "rubric", "category", "difficulty", "tags"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$",
+      "description": "Unique fixture ID"
+    },
+    "prompt": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["role", "content"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["system", "user"]
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "expected_verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"]
+    },
+    "rubric": {
+      "type": "object",
+      "description": "Expected score ranges per criterion",
+      "properties": {
+        "accuracy": { "$ref": "#/$defs/score_range" },
+        "completeness": { "$ref": "#/$defs/score_range" },
+        "structure": { "$ref": "#/$defs/score_range" },
+        "relevance": { "$ref": "#/$defs/score_range" },
+        "sft_quality": { "$ref": "#/$defs/score_range" }
+      }
+    },
+    "category": {
+      "type": "string",
+      "enum": ["core", "edge", "adversarial"]
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"]
+    },
+    "gold_rationale": {
+      "type": "string",
+      "description": "Why this verdict is correct"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "score_range": {
+      "type": "object",
+      "properties": {
+        "min": { "type": "number", "minimum": 1, "maximum": 5 },
+        "max": { "type": "number", "minimum": 1, "maximum": 5 }
+      },
+      "required": ["min", "max"]
+    }
+  }
+}

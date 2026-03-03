@@ -1,0 +1,65 @@
+{
+  "model_id": "swarmjudge-9b-cre-b0",
+  "phase": "phase2",
+  "run_id": "20260303-1114-phase2",
+  "base_model": {
+    "path": "/data2/swarmjudge-9b-b0/merged",
+    "note": "Phase 1 merged (identity lock)"
+  },
+  "config": {
+    "path": "configs/models/swarmjudge-9b-cre-b0/phase2.yaml"
+  },
+  "dataset": {
+    "train_sha256": "9e6e2a0d8351c3ac920c0b6ef6824cdc233a9ff86b4e607940055aa91846aa57",
+    "train_pairs": 23000,
+    "eval_pairs": 200,
+    "verdict_split": {
+      "PASS": 16100,
+      "FAIL": 6900
+    }
+  },
+  "code": {
+    "repo": "SudoSuOps/swarm-eval-qwen",
+    "commit": "initial",
+    "branch": "main"
+  },
+  "environment": {
+    "cuda_version": "12.0",
+    "cuda_toolkit": "12.8",
+    "torch_version": "2.9.1+cu128",
+    "transformers_version": "5.3.0.dev0",
+    "unsloth_version": "2026.2.1",
+    "python_version": "3.12",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition (96GB)",
+    "hostname": "swarmrails"
+  },
+  "training": {
+    "method": "bf16 LoRA r=64 alpha=32",
+    "trainable_params": 116391936,
+    "total_params": 9526205680,
+    "trainable_pct": 1.22,
+    "steps": 719,
+    "train_loss_avg": 0.1333,
+    "train_loss_final": 0.1263,
+    "runtime_seconds": 28670,
+    "samples_per_second": 0.802
+  },
+  "artifacts": {
+    "adapter_path": "/data2/swarmjudge-9b-cre-p2/final/",
+    "adapter_size": "464MB",
+    "merged_path": "/data2/swarmjudge-9b-cre-p2/merged/",
+    "merged_shards": [
+      "model.safetensors-00001-of-00004.safetensors",
+      "model.safetensors-00002-of-00004.safetensors",
+      "model.safetensors-00003-of-00004.safetensors",
+      "model.safetensors-00004-of-00004.safetensors"
+    ],
+    "merged_total_size": "18GB"
+  },
+  "eval": {
+    "sampling_config": "configs/models/swarmjudge-9b-cre-b0/sampling.yaml",
+    "status": "pending"
+  },
+  "started_utc": "2026-03-03T11:14:38.011144",
+  "completed_utc": "2026-03-03T19:12:31.098905"
+}

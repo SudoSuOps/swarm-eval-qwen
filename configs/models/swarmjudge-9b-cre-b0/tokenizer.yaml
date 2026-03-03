@@ -1,0 +1,34 @@
+# Tokenizer Configuration — SwarmJudge-9B-CRE-B0
+# Verified: Phase 1 and Phase 2 merged tokenizers are identical.
+# Test: /tmp/tokenizer_test.py — all 6 CRE prompts match exactly.
+
+vocab_size: 248044
+
+special_tokens:
+  "<|im_start|>": 248045
+  "<|im_end|>": 248046
+  "<|endoftext|>": 248044
+  "</think>": 248069
+  total_special: 9
+
+eos_token: "<|im_end|>"
+eos_token_id: 248046
+pad_token: "<|endoftext|>"  # fallback if pad_token not set
+
+# CRE term tokenization (verified)
+# These split predictably — no surprises in legal/property patterns.
+cre_splits:
+  NNN: ["NN", "N"]              # 2 tokens
+  SNDA: ["SN", "DA"]            # 2 tokens
+  estoppel: ["est", "oppel"]    # 2 tokens
+  PSA: ["PS", "A"]              # 2 tokens
+  NOI: ["NO", "I"]              # 2 tokens
+  "Phase I ESA": ["Phase", " I", " ESA"]  # 3 tokens
+  "1031 exchange": ["1", "0", "3", "1", " exchange"]  # 5 tokens
+  "cap rate": ["cap", " rate"]  # 2 tokens
+
+# Regex warning
+# Unsloth/transformers flags "incorrect regex pattern" on Qwen3.5 tokenizer.
+# This is cosmetic. Tokenization output is identical between phases.
+# Reference: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84
+regex_warning: cosmetic_only

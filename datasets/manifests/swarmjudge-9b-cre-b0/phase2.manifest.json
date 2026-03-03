@@ -1,0 +1,43 @@
+{
+  "model_id": "swarmjudge-9b-cre-b0",
+  "phase": "phase2",
+  "schema_version": "1.0",
+  "created_utc": "2026-03-03T11:00:00Z",
+  "dataset_location": {
+    "train": "/data2/swarmjudge_27b_data/phase2_9b/phase2_train.jsonl",
+    "eval": "/data2/swarmjudge_27b_data/phase2_9b/phase2_eval.jsonl",
+    "storage": "swarmrails NAS"
+  },
+  "files": [
+    {
+      "name": "phase2_train.jsonl",
+      "path": "/data2/swarmjudge_27b_data/phase2_9b/phase2_train.jsonl",
+      "sha256": "9e6e2a0d8351c3ac920c0b6ef6824cdc233a9ff86b4e607940055aa91846aa57",
+      "pairs": 23000
+    },
+    {
+      "name": "phase2_eval.jsonl",
+      "path": "/data2/swarmjudge_27b_data/phase2_9b/phase2_eval.jsonl",
+      "pairs": 200,
+      "note": "100 PASS + 100 FAIL holdout, seed=99"
+    },
+    {
+      "name": "phase2_report.json",
+      "path": "/data2/swarmjudge_27b_data/phase2_9b/phase2_report.json"
+    }
+  ],
+  "total_pairs": 23000,
+  "pass_count": 16100,
+  "fail_count": 6900,
+  "pass_fail_ratio": "70/30",
+  "dedup_strategy": "fingerprint field in metadata — SHA256 of (system_prompt + user_content)",
+  "source_runs": [
+    "cre_judge_cook_llama4_r7",
+    "cre_judge_cook_llama4_r8",
+    "cre_judge_cook_llama4_r9",
+    "cre_judge_cook_llama4_r10",
+    "cre_judge_cook_llama4_r11"
+  ],
+  "judge_model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+  "assembler": "assemble_phase2.py"
+}

@@ -1,0 +1,52 @@
+# Sampling Configuration — SwarmJudge-9B-CRE-B0
+# Base: Qwen3.5-9B (GDN + sparse MoE)
+# Source: https://huggingface.co/Qwen/Qwen3.5-9B
+#         https://unsloth.ai/docs/models/qwen3.5
+#
+# CRITICAL: Never use do_sample=False on Qwen3 or Qwen3.5.
+
+family: qwen3_5
+think_mode_default: false  # OFF for Qwen3.5 <=9B
+
+# Judge inference — instruct mode, general tasks
+# The judge scores CRE outputs. It reasons but does not need think mode.
+judge:
+  do_sample: true
+  temperature: 0.7
+  top_p: 0.8
+  top_k: 20
+  min_p: 0.0
+  presence_penalty: 1.5
+  repetition_penalty: 1.0
+  max_new_tokens: 512
+  note: "Judge JSON output ~400 tokens. 512 gives headroom."
+
+# Deterministic eval — for reproducible benchmarks
+# Lowest temperature that still samples. NOT greedy.
+eval_deterministic:
+  do_sample: true
+  temperature: 0.1
+  top_p: 0.8
+  top_k: 20
+  min_p: 0.0
+  presence_penalty: 1.5
+  repetition_penalty: 1.0
+  max_new_tokens: 512
+
+# Special tokens (verified from merged tokenizer)
+tokens:
+  vocab_size: 248044
+  im_start_id: 248045
+  im_end_id: 248046
+  endoftext_id: 248044
+  think_close_id: 248069
+  eos_token: "<|im_end|>"
+  eos_token_id: 248046
+
+# Chat template
+template:
+  # Use tokenizer.apply_chat_template() — never construct manually
+  # Qwen3.5 <=9B: think OFF by default, no enable_thinking param needed
+  # Multi-turn: strip <think> blocks from history
+  method: apply_chat_template
+  add_generation_prompt: true
