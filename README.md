@@ -65,8 +65,10 @@ docs/                          Process documentation
 | Model | Phase | Status |
 |-------|-------|--------|
 | swarmjudge-9b-cre-b0 | Phase 1 | DONE (identity lock) |
-| swarmjudge-9b-cre-b0 | Phase 2 | TRAIN DONE, EVAL PENDING |
-| swarmjudge-9b-cre-b0 | Phase 3 | DATA READY |
+| swarmjudge-9b-cre-b0 | Phase 2 | TRAIN DONE, EVAL RUNNING |
+| swarmjudge-9b-cre-b0 | Phase 3 | DATA READY (2,987 pairs) |
+| swarmjudge-2b-cre-b0 | Phase 1 | DONE (identity lock, gate bench 96% JSON) |
+| swarmjudge-2b-cre-b0 | Phase 2 | PENDING (contrast learning) |
 
 ## Docs
 

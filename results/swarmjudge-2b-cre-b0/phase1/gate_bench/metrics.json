@@ -1,0 +1,39 @@
+{
+  "generated_utc": "2026-03-03T22:33:01Z",
+  "model": "whale:~/swarmjudge-2b-cre-b0/merged",
+  "benchmark": "gate_bench",
+  "phase": "phase1",
+  "total_cases": 25,
+  "total_pass": 13,
+  "total_pct": 52.0,
+  "json_valid": 24,
+  "json_valid_pct": 96.0,
+  "inference_seconds": 73.5,
+  "seconds_per_case": 2.9,
+  "sampling": {
+    "do_sample": true,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "enable_thinking": false
+  },
+  "categories": {
+    "json_validity":        {"passed": 4, "total": 5, "pct": 80},
+    "schema_correctness":   {"passed": 5, "total": 5, "pct": 100},
+    "literal_extraction":   {"passed": 1, "total": 5, "pct": 20},
+    "dscr_precision":       {"passed": 2, "total": 5, "pct": 40},
+    "hallucination_reject": {"passed": 1, "total": 5, "pct": 20}
+  },
+  "assessment": {
+    "format_locked": true,
+    "discrimination_learned": false,
+    "note": "Phase 1 PASS-only training. Model produces perfect schema but cannot FAIL. Expected behavior — identity lock succeeded, discrimination requires Phase 2."
+  },
+  "phase2_targets": {
+    "json_valid_pct": ">= 95 (hold)",
+    "schema_correctness": "100% (hold)",
+    "literal_extraction": ">= 70%",
+    "dscr_precision": ">= 75%",
+    "hallucination_reject": ">= 70%"
+  }
+}

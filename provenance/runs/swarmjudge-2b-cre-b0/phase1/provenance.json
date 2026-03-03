@@ -1,0 +1,66 @@
+{
+  "model_id": "swarmjudge-2b-cre-b0",
+  "phase": "phase1",
+  "run_id": "20260303-1151-phase1-whale",
+  "base_model": {
+    "name": "Qwen/Qwen3-1.7B",
+    "family": "qwen3",
+    "architecture": "standard transformer + GQA",
+    "params": "1.7B"
+  },
+  "config": {
+    "path": "configs/models/swarmjudge-2b-cre-b0/phase1.yaml"
+  },
+  "dataset": {
+    "train_sha256": "2d294835a46628ceaea24008c4a452cc45723a46c335f882c6aca6d8ff52151a",
+    "train_pairs": 23000,
+    "verdict_filter": "PASS_ONLY",
+    "note": "Same Phase 1 PASS-only data as 9B. Identity lock."
+  },
+  "code": {
+    "repo": "SudoSuOps/swarm-eval-qwen",
+    "branch": "main"
+  },
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 3090 (24GB)",
+    "hostname": "whale",
+    "cuda_toolkit": "12.8",
+    "torch_version": "2.9.1+cu128",
+    "unsloth_version": "2026.2.1",
+    "python_version": "3.12"
+  },
+  "training": {
+    "method": "bf16 LoRA r=64 alpha=32",
+    "steps": 719,
+    "train_loss_avg": 0.3621,
+    "train_loss_final": 0.182,
+    "train_loss_min": 0.179,
+    "eval_losses": [0.993, 0.977, 0.994, 1.005, 1.013, 1.020, 1.021],
+    "eval_loss_trend": "rising — expected overfitting at 1.7B on 23K pairs",
+    "runtime_seconds": 26210,
+    "runtime_hours": 7.28,
+    "samples_per_second": 0.878
+  },
+  "artifacts": {
+    "adapter_path": "whale:~/swarmjudge-2b-cre-b0/final/",
+    "adapter_sha256": "f0cf2cdf70309e8e2768586dbe137e0a9bfba7259bd3ff52c0efcb090bbe5537",
+    "adapter_size": "267MB",
+    "merged_path": "whale:~/swarmjudge-2b-cre-b0/merged/",
+    "merged_sha256": "333b0081f7628c57ba4b647ca4d363ee3392b9fa2e08d78cd8095d366a855df2",
+    "merged_size": "3.3GB",
+    "merged_shards": ["model.safetensors"]
+  },
+  "eval": {
+    "gate_bench": {
+      "status": "DONE",
+      "json_valid_pct": 96.0,
+      "schema_correctness": "5/5 (100%)",
+      "literal_extraction": "1/5 (20%)",
+      "dscr_precision": "2/5 (40%)",
+      "hallucination_reject": "1/5 (20%)",
+      "assessment": "Format LOCKED. Discrimination NOT learned (Phase 1 = PASS only). Expected."
+    }
+  },
+  "started_utc": "2026-03-03T11:51:00",
+  "completed_utc": "2026-03-03T19:08:00"
+}
